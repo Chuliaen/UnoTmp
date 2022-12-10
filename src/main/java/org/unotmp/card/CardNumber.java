@@ -6,9 +6,28 @@ public class CardNumber extends CardAbstract {
     public CardNumber(int value, CardColor color) {
         super(CardType.NUMBER, color);
         this.value = value;
+        CardValidator.validateNumber(value);
+        CardValidator.validateColor(color);
     }
 
     public int getValue() {
         return value;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        return value == ((CardNumber) o).value && getCardColor() == ((CardNumber) o).getCardColor();
+    }
+
+    @Override
+    public String toString() {
+        return "{" + value + ", " + getCardColor() + '}';
     }
 }

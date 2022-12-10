@@ -2,14 +2,15 @@ package org.unotmp.player;
 
 import org.unotmp.card.Card;
 
-import java.util.stream.Stream;
+import java.util.List;
 
 public class Player {
 
     private final String name;
-    private final CardList cardList;
+    private final PlayerCardList cardList;
+    private boolean saidUno = false;
 
-    public Player(String name, CardList cardList) {
+    public Player(String name, PlayerCardList cardList) {
         this.name = name;
         this.cardList = cardList;
     }
@@ -18,7 +19,7 @@ public class Player {
         return name;
     }
 
-    public Stream<Card> getCards() {
+    public List<Card> getCards() {
         return this.cardList.getCards();
     }
 
@@ -30,7 +31,15 @@ public class Player {
         return cardList.removeCard(card);
     }
 
-    public int getCardsNumber() {
+    public int getCardsAmount() {
         return cardList.size();
+    }
+
+    public boolean getSaidUno() {
+        return saidUno;
+    }
+
+    public void setSaidUno(boolean saidUno) {
+        this.saidUno = saidUno;
     }
 }

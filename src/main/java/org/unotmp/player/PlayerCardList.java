@@ -4,9 +4,9 @@ import org.unotmp.card.Card;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
-public class CardList {
+public class PlayerCardList {
+
     private final List<Card> playerCards = new ArrayList<>();
 
     public void addCard(Card card) {
@@ -14,15 +14,19 @@ public class CardList {
     }
 
     public boolean removeCard(Card card) {
-        if (playerCards.contains(card)){
+        if (playerCards.contains(card)) {
             playerCards.remove(card);
             return true;
         }
         return false;
     }
 
-    public Stream<Card> getCards () {
-        return playerCards.stream();
+//    public boolean hasCard(Card card) {
+//        return true;
+//    }
+
+    public List<Card> getCards() {
+        return playerCards;
     }
 
     public int size() {
