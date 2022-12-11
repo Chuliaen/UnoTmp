@@ -9,8 +9,8 @@ import org.unotmp.card.CardType;
 import org.unotmp.player.Player;
 import org.unotmp.tmp.GameCom.*;
 import org.unotmp.tmp.GameComCallback;
-import org.unotmp.tmp.GameComCallbackImpl;
 import org.unotmp.tmp.GameConnect.*;
+import org.unotmp.view.ClientLogic;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +37,12 @@ public class GameHandler {
         gameCreators[gameId] = gc;
         //todo: send id to server?!? and callback gameid
 
+
+        // callback alternative
+        // clientLogic.sendMessageToClient("Test");
+        clientLogic.createBoard(username, gameId);
+
+
         return ReturnCreateGame.SUCCESS;
     }
 
@@ -50,10 +56,14 @@ public class GameHandler {
         if (gameCreators[gameId] == null && games[gameId] != null) {
             return ReturnJoinGame.GAME_STATE_PLAYING;
         }
-
         if (!gameCreators[gameId].join(username)) {
             return ReturnJoinGame.MAX_NUMBER_OF_PLAYERS;
         }
+
+        //callback alternative
+        // update board with new userlist
+        clientLogic.joinBoard(gameCreators[gameId].getPlayerNames(), gameId);
+
         return ReturnJoinGame.SUCCESS;
     }
 
@@ -79,10 +89,14 @@ public class GameHandler {
         games[gameId] = game;
         gameCreators[gameId] = null;
 
-        //todo: send gamestate and cards to everyone
-        for (Player player : playerIterator.getPlayers()) {
-            sendCallback(player.getName(), player.getCards().toString(), null);
-        }
+//        //send gamestate and cards to everyone
+//        for (Player player : playerIterator.getPlayers()) {
+//            sendCallback(player.getName(), player.getCards().toString(), null);
+//        }
+
+        //callback alternative
+        //send game as Game object
+        clientLogic.updateBoard(games[gameId]);
 
         return ReturnStartGame.SUCCESS;
     }
@@ -97,7 +111,7 @@ public class GameHandler {
         }
 
 
-        //todo: maybe change order? because update clients only if card is accepted
+        //check if card is accepted then update clients
         ReturnPlayCard returnPlayCard = games[gameId].playCard(username, card);
         if (returnPlayCard == ReturnPlayCard.NOT_YOUR_TURN) {
             return ReturnPlayCard.NOT_YOUR_TURN;
@@ -106,16 +120,20 @@ public class GameHandler {
             return ReturnPlayCard.CARD_NOT_PLAYABLE;
         }
 
-        //todo: send gamestate and cards to everyone
-        for (String player : games[gameId].getPlayers()) {
-            if (card.getCardType() == CardType.NUMBER) {
-                int value = ((CardNumber) card).getValue();
-                sendCallback(player, "CARD{" + value + ", " + card.getCardColor().toString() + "}", null);
-            } else {
-                sendCallback(player, "CARD{" + card.getCardType() + ", " + card.getCardColor().toString() + "}", null);
-            }
-        }
+//        // send gamestate and cards to everyone
+//        // callback logic
+//        for (String player : games[gameId].getPlayers()) {
+//            if (card.getCardType() == CardType.NUMBER) {
+//                int value = ((CardNumber) card).getValue();
+//                sendCallback(player, "CARD{" + value + ", " + card.getCardColor().toString() + "}", null);
+//            } else {
+//                sendCallback(player, "CARD{" + card.getCardType() + ", " + card.getCardColor().toString() + "}", null);
+//            }
+//        }
 
+        //callback alternative
+        //send all updated things (maybe new Game object?)
+        clientLogic.updateBoard(games[gameId]);
 
         return returnPlayCard;
     }
@@ -130,7 +148,14 @@ public class GameHandler {
             return ReturnDrawCard.FAILURE;
         }
 
-        return games[gameId].drawCard(username);
+        ReturnDrawCard returnDrawCard = games[gameId].drawCard(username);
+        if (returnDrawCard == ReturnDrawCard.NOT_YOUR_TURN) {
+            return ReturnDrawCard.NOT_YOUR_TURN;
+        }
+
+        clientLogic.updateBoard(games[gameId]);
+
+        return returnDrawCard;
     }
 
     public ReturnSayUno sayUno(int gameId, String username) {
@@ -141,15 +166,30 @@ public class GameHandler {
             return ReturnSayUno.FAILURE;
         }
 
-        return games[gameId].sayUno(username);
+        ReturnSayUno returnSayUno = games[gameId].sayUno(username);
+        if (returnSayUno == ReturnSayUno.NOT_YOUR_TURN) {
+            return ReturnSayUno.NOT_YOUR_TURN;
+        }
+
+        clientLogic.updateBoard(games[gameId]);
+
+        return returnSayUno;
     }
+
+    // Callback alternative, access client logic directly
+    private ClientLogic clientLogic = null;
+
+    public void setClientLogic(ClientLogic clientLogic) {
+        this.clientLogic = clientLogic;
+    }
+
 
     /**
      * Callback logic
      */
     List<GameComCallback> gameComCallbacks = new ArrayList<>();
 
-    public void registerGameCallback(GameComCallback gameComCallback) {
+    public void registerGameComCallback(GameComCallback gameComCallback) {
         gameComCallbacks.add(gameComCallback);
     }
 

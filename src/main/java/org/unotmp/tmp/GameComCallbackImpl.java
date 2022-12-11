@@ -1,7 +1,5 @@
 package org.unotmp.tmp;
 
-import java.util.Arrays;
-
 public class GameComCallbackImpl implements GameComCallback {
 
     @Override

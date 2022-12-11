@@ -37,5 +37,13 @@ public class PlayerIterator {
         return players;
     }
 
+    public GameDirection getGameDirection() {
+        return gameDirection;
+    }
+
+    public int getCurrent() {
+        return current;
+    }
+
     //todo: remove player
 }

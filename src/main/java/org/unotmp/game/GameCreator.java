@@ -41,4 +41,8 @@ public class GameCreator {
     public int getCurrentPlayers() {
         return currentPlayers;
     }
+
+    public String[] getPlayerNames() {
+        return playerNames;
+    }
 }

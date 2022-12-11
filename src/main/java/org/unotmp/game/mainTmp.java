@@ -3,20 +3,24 @@ package org.unotmp.game;
 import org.unotmp.card.*;
 import org.unotmp.tmp.GameComCallback;
 import org.unotmp.tmp.GameComCallbackImpl;
+import org.unotmp.view.ClientLogic;
 
-import java.util.stream.Stream;
-
-public class main {
+public class mainTmp {
 
     public static void main(String[] args) {
         GameHandler gameHandler = new GameHandler();
+        ClientLogic clientLogic = new ClientLogic(gameHandler);
+
+        gameHandler.setClientLogic(clientLogic);
+
+
 
         /**
          *  Callback logic
          */
 
         GameComCallback gameComCallback = new GameComCallbackImpl();
-        gameHandler.registerGameCallback(gameComCallback);
+        gameHandler.registerGameComCallback(gameComCallback);
 
 
         gameHandler.createGame("", "user1");

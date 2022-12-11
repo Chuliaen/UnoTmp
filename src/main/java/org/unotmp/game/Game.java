@@ -30,6 +30,9 @@ public class Game {
         }
 
 
+        //first card
+        discardPile.add(drawPile.drawCard());
+
         //todo: change
         Card firstCard = new CardNumber(1, CardColor.RED);
         this.discardPile.add(firstCard);
@@ -64,6 +67,14 @@ public class Game {
 
     public List<String> getPlayers() {
         return playerNames;
+    }
+
+    public PlayerIterator getPlayerIterator() {
+        return playerIterator;
+    }
+
+    public Card getTopCard() {
+        return discardPile.peek();
     }
 
     public ReturnDrawCard drawCard(String playerName) {
