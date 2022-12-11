@@ -21,7 +21,6 @@ public class GameHandler {
     private Game[] games = new Game[10];
     private GameCreator[] gameCreators = new GameCreator[10];
 
-
     public ReturnCreateGame createGame(String rules, String username) {
         int gameId = 0;
 
