@@ -17,10 +17,7 @@ public class main {
 
         GameComCallback gameComCallback = new GameComCallbackImpl();
         gameHandler.registerGameCallback(gameComCallback);
-        gameHandler.testCallback();
 
-        /**
-         *
 
         gameHandler.createGame("", "user1");
         gameHandler.joinGame(0, "user2");
@@ -29,9 +26,9 @@ public class main {
         gameHandler.startGame(0);
 
         System.out.println(gameHandler.playCard(new CardNumber(1, CardColor.RED), 0, "user1"));
-        System.out.println(gameHandler.playCard(new CardNumber(1, CardColor.RED), 0, "user2"));
+        System.out.println(gameHandler.playCard(new CardNumber(1, CardColor.RED), 0, "user1"));
 
-         */
+
 
 
 //        CardDeckGenerator cd = new CardDeckGenerator();

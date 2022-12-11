@@ -4,6 +4,9 @@ import org.unotmp.card.Card;
 import org.unotmp.card.CardDeckGenerator;
 
 //todo: delete
+import org.unotmp.card.CardNumber;
+import org.unotmp.card.CardType;
+import org.unotmp.player.Player;
 import org.unotmp.tmp.GameCom.*;
 import org.unotmp.tmp.GameComCallback;
 import org.unotmp.tmp.GameComCallbackImpl;
@@ -77,12 +80,14 @@ public class GameHandler {
         gameCreators[gameId] = null;
 
         //todo: send gamestate and cards to everyone
+        for (Player player : playerIterator.getPlayers()) {
+            sendCallback(player.getName(), player.getCards().toString(), null);
+        }
 
         return ReturnStartGame.SUCCESS;
     }
 
 
-    //todo: send gamestate and cards to everyone
     public ReturnPlayCard playCard(Card card, int gameId, String username) {
         if (gameId < 0 || gameId > 9) {
             return ReturnPlayCard.FAILURE;
@@ -91,7 +96,28 @@ public class GameHandler {
             return ReturnPlayCard.FAILURE;
         }
 
-        return games[gameId].playCard(username, card);
+
+        //todo: maybe change order? because update clients only if card is accepted
+        ReturnPlayCard returnPlayCard = games[gameId].playCard(username, card);
+        if (returnPlayCard == ReturnPlayCard.NOT_YOUR_TURN) {
+            return ReturnPlayCard.NOT_YOUR_TURN;
+        }
+        if (returnPlayCard == ReturnPlayCard.CARD_NOT_PLAYABLE) {
+            return ReturnPlayCard.CARD_NOT_PLAYABLE;
+        }
+
+        //todo: send gamestate and cards to everyone
+        for (String player : games[gameId].getPlayers()) {
+            if (card.getCardType() == CardType.NUMBER) {
+                int value = ((CardNumber) card).getValue();
+                sendCallback(player, "CARD{" + value + ", " + card.getCardColor().toString() + "}", null);
+            } else {
+                sendCallback(player, "CARD{" + card.getCardType() + ", " + card.getCardColor().toString() + "}", null);
+            }
+        }
+
+
+        return returnPlayCard;
     }
 
 
@@ -127,9 +153,9 @@ public class GameHandler {
         gameComCallbacks.add(gameComCallback);
     }
 
-    public void testCallback() {
+    public void sendCallback(String username, String message, byte[] data) {
         for (GameComCallback gameComCallback : gameComCallbacks) {
-            gameComCallback.sendMessageToClient(new String[]{"user1", "user2"}, null, null);
+            gameComCallback.sendMessageToClient(username, message, data);
         }
     }
 
