@@ -46,8 +46,8 @@ public class Game {
             return ReturnPlayCard.NOT_YOUR_TURN;
         }
 
-        if (isPlayable(playedCard)) {
-            return null;
+        if (!isPlayable(playedCard)) {
+            return ReturnPlayCard.FAILURE;
         }
 
         if (winner != null) {
@@ -100,7 +100,9 @@ public class Game {
         switch (playedCard.getCardType()) {
             case NUMBER -> {
                 if (checkNumberCard(topCard, (CardNumber) playedCard)) {
-                    placeCard(playedCard);
+                    if (!placeCard(playedCard)) {
+                        return false;
+                    }
 
                     playerIterator.getNextPlayer();
                 }
