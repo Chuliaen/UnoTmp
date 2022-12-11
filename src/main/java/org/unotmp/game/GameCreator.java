@@ -37,4 +37,8 @@ public class GameCreator {
         }
         return false;
     }
+
+    public int getCurrentPlayers() {
+        return currentPlayers;
+    }
 }

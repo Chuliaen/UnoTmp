@@ -33,5 +33,9 @@ public class PlayerIterator {
         return getCurrentPlayer();
     }
 
+    public Player[] getPlayers() {
+        return players;
+    }
+
     //todo: remove player
 }

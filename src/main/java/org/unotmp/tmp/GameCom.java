@@ -1,6 +1,7 @@
-package edu.unibw.se.uno.server.game;
+package org.unotmp.tmp;
 
-import edu.unibw.se.uno.server.game.impl.Card;
+
+import org.unotmp.card.Card;
 
 public interface GameCom {
 
