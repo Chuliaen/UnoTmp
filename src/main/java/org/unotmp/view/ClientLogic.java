@@ -41,7 +41,6 @@ public class ClientLogic {
 
     public void updateBoard(Game game) {
         var playerList = game.getPlayerIterator().getPlayers();
-//       gui aufruf: placeCard(player, cards)
         var activePlayerID = game.getPlayerIterator().getCurrent();
         var gameDirection = game.getPlayerIterator().getGameDirection();
         var topCard = game.getTopCard();
