@@ -16,3 +16,6 @@ git clone
 **3. Schritt**
 
 Spaß haben
+
+PS:
+Alle commits von "Chuliaen" sind von Julian Graßl
