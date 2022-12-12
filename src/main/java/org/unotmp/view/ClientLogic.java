@@ -8,6 +8,7 @@ import org.unotmp.game.GameHandler;
 public class ClientLogic {
 
     private GameHandler gameHandler;
+    private Uno uno;
     private int gameId;
 
     public ClientLogic(GameHandler gameHandler) {
@@ -18,14 +19,12 @@ public class ClientLogic {
         this.gameHandler = gameHandler;
     }
 
-    //todo: abfragen für success usw (server communication)
     public void createGame(String username) {
         gameHandler.createGame("", username);
     }
 
     public void createBoard(String username, int gameId) {
         this.gameId = gameId;
-        //update gui join board
     }
 
     public void joinGame(int gameId, String username) {
@@ -34,7 +33,6 @@ public class ClientLogic {
 
     public void joinBoard(String[] username, int gameId) {
         this.gameId = gameId;
-        //an alle schicken auf dem Board
     }
 
     public void startGame() {
@@ -47,6 +45,7 @@ public class ClientLogic {
         var activePlayerID = game.getPlayerIterator().getCurrent();
         var gameDirection = game.getPlayerIterator().getGameDirection();
         var topCard = game.getTopCard();
+        uno.showBoard(playerList, activePlayerID, gameDirection, topCard);
     }
 
     public void playCard(Card card, String username) {
@@ -57,8 +56,23 @@ public class ClientLogic {
         gameHandler.drawCard(this.gameId, username);
     }
 
-    //String -> Methoden
+    public void sayUno(String username) {
+        gameHandler.sayUno(this.gameId, username);
+    }
 
+    public int getGameId(){
+        return this.gameId;
+    }
+
+
+
+    public void setUno(Uno uno) {
+        this.uno = uno;
+    }
+
+
+
+//    for later use and servercommunication
 //    public void sendMessageToClient(String test){
 //        switch(test){
 //            case "HALLO" -> {

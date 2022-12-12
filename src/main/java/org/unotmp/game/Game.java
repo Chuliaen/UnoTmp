@@ -29,14 +29,14 @@ public class Game {
             playerNames.add(player.getName());
         }
 
-
         //first card
-        discardPile.add(drawPile.drawCard());
-
-        //todo: change
-        Card firstCard = new CardNumber(1, CardColor.RED);
-        this.discardPile.add(firstCard);
-        playerIterator.getCurrentPlayer().addCard(new CardNumber(1, CardColor.RED));
+        Card topCard = drawPile.drawCard();
+        if (topCard.getCardColor() == null) {
+            Card betterTopCard = new CardWild(topCard.getCardType(), CardColor.RED);
+            discardPile.add(betterTopCard);
+        } else {
+            discardPile.add(topCard);
+        }
     }
 
 
@@ -54,8 +54,7 @@ public class Game {
         }
 
         if (winner != null) {
-            //todo::
-            throw new IllegalStateException("Game is over");
+            throw new IllegalStateException(winner.getName() + " WON!");
         }
 
         return ReturnPlayCard.SUCCESS;

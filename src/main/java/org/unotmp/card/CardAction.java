@@ -3,8 +3,6 @@ package org.unotmp.card;
 public class CardAction extends CardAbstract {
     public CardAction(CardType type, CardColor color) {
         super(type, color);
-        CardValidator.validateAction(type);
-        CardValidator.validateColor(color);
     }
 
     @Override
@@ -21,6 +19,6 @@ public class CardAction extends CardAbstract {
 
     @Override
     public String toString() {
-        return "{" + getCardType() + ", " + getCardColor() + '}';
+        return "" + getCardType() + ", " + getCardColor() + "";
     }
 }

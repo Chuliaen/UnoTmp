@@ -1,6 +1,8 @@
 package org.unotmp.player;
 
 import org.unotmp.card.Card;
+import org.unotmp.card.CardType;
+import org.unotmp.card.CardWild;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,13 +19,15 @@ public class PlayerCardList {
         if (playerCards.contains(card)) {
             playerCards.remove(card);
             return true;
+        } else if (card.getCardType().equals(CardType.WILD)) {
+            playerCards.remove(new CardWild(CardType.WILD, null));
+            return true;
+        } else if ( card.getCardType().equals(CardType.WILD_DRAW_FOUR)){
+            playerCards.remove(new CardWild(CardType.WILD_DRAW_FOUR, null));
+            return true;
         }
         return false;
     }
-
-//    public boolean hasCard(Card card) {
-//        return true;
-//    }
 
     public List<Card> getCards() {
         return playerCards;

@@ -169,9 +169,6 @@ public class GameHandler {
         if (returnSayUno == ReturnSayUno.NOT_YOUR_TURN) {
             return ReturnSayUno.NOT_YOUR_TURN;
         }
-
-        clientLogic.updateBoard(games[gameId]);
-
         return returnSayUno;
     }
 

@@ -1,12 +1,13 @@
 package org.unotmp.card;
 
 public class CardWild extends CardAbstract {
+
     public CardWild(CardType type) {
         super(type, null);
     }
+
     public CardWild(CardType type, CardColor color) {
         super(type, color);
-        CardValidator.validateColor(color);
     }
 
     @Override
@@ -23,6 +24,6 @@ public class CardWild extends CardAbstract {
 
     @Override
     public String toString() {
-        return "{" + getCardType() + ", " + getCardColor() + '}';
+        return "" + getCardType() + ", " + getCardColor() + "";
     }
 }
