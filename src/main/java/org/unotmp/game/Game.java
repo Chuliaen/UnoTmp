@@ -1,7 +1,6 @@
 package org.unotmp.game;
 
 import org.unotmp.tmp.GameCom.*;
-//todo: delete
 
 
 import org.unotmp.card.*;

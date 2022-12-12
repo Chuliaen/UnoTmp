@@ -3,10 +3,6 @@ package org.unotmp.game;
 import org.unotmp.card.Card;
 import org.unotmp.card.CardDeckGenerator;
 
-//todo: delete
-import org.unotmp.card.CardNumber;
-import org.unotmp.card.CardType;
-import org.unotmp.player.Player;
 import org.unotmp.tmp.GameCom.*;
 import org.unotmp.tmp.GameComCallback;
 import org.unotmp.tmp.GameConnect.*;
